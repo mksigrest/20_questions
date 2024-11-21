@@ -10,6 +10,7 @@
             public TreeNode YesChild { get; set; }
             public treeNode NoChild { get; set; }
 
+            //class builder that assigns string arg question to data
             public TreeNode(string data)
             {
                 Data = data;
