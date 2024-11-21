@@ -24,10 +24,25 @@
         static void CreateDefaultTree()
         {
             //default question tree
-            //can be replaced with text file to create data
-            //txt
 
-            root = new TreeNode("Is it an animal?"
+            root = new TreeNode;
+
+            string filepath = questionTree.txt;
+            string line;
+            while ((line = ReaderWriterLock.ReadLine()) != null) 
+            {
+                //Process line as data, yesChild, noChild
+                string[] parts = line.Split(',');
+
+                root = new TreeNode(parts[0]);
+                root.YesChild = new TreeNode(parts[1]);
+                root.NoChild = new TreeNode(parts[2]);
+
+            }
+
+
+
+         
         }
     }
 }
