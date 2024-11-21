@@ -8,7 +8,7 @@
         {
             public string Data { get; set; }
             public TreeNode YesChild { get; set; }
-            public treeNode NoChild { get; set; }
+            public TreeNode NoChild { get; set; }
 
             //class builder that assigns string arg question to data
             public TreeNode(string data)
