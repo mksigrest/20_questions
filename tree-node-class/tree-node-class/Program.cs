@@ -4,7 +4,7 @@
     {
         //tree_node_class
 
-    class TreeNode
+        class TreeNode
         {
             public string Data { get; set; }
             public TreeNode YesChild { get; set; }
@@ -16,9 +16,10 @@
                 Data = data;
             }
 
-        static void Main(string[] args)
-        {
-            
+            static void Main(string[] args)
+            {
+
+            }
         }
     }
 }
