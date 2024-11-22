@@ -18,31 +18,62 @@
 
 
             //To-do: prompt for existing game file; if not, build default tree
+            string filepath = "questionTree.txt";
+            TreeNode root = BuildTreeFromFile(filepath);
 
         }
 
-        static void CreateDefaultTree()
+
+        // recursive function to create default binary search tree from questionTree.txt
+        // returns a TreeNode that can be traversed by accessing the YesChild or NoChild
+        static TreeNode BuildTreeFromFile(string filePath)
         {
-            //default question tree
+            // dictionary to hold references to TreeNode objects
+            Dictionary<string, TreeNode> nodes = new Dictionary<string, TreeNode>();
 
-            root = new TreeNode;
+            // read complete default tree file
+            string[] lines = File.ReadAllLines(filePath);
 
-            string filepath = questionTree.txt;
-            string line;
-            while ((line = ReaderWriterLock.ReadLine()) != null) 
+            TreeNode root = null;
+
+            foreach (string line in lines)
             {
-                //Process line as data, yesChild, noChild
-                string[] parts = line.Split(',');
+                // parse line into parts
+                string[] parts = line.Split(new[] { "\", \"" }, StringSplitOptions.None);
+                string parentQuestion = parts[0].Trim('\"');
+                string yesChildText = parts[1].Trim('\"');
+                string noChildText = parts[2].Trim('\"');
 
-                root = new TreeNode(parts[0]);
-                root.YesChild = new TreeNode(parts[1]);
-                root.NoChild = new TreeNode(parts[2]);
+                // create parent node if parentQuestion is not found
+                if (!nodes.ContainsKey(parentQuestion))
+                {
+                    nodes[parentQuestion] = new TreeNode(parentQuestion);
+                    // set root if null
+                    if (root == null) root = nodes[parentQuestion]; 
+                }
 
+                TreeNode parent = nodes[parentQuestion];
+
+                // create YesChild node if YesChild is not found
+                if (!nodes.ContainsKey(yesChildText))
+                {
+                    nodes[yesChildText] = new TreeNode(yesChildText);
+                }
+                parent.YesChild = nodes[yesChildText];
+
+                // create NoChild node if NoChild is not found
+                if (!nodes.ContainsKey(noChildText))
+                {
+                    nodes[noChildText] = new TreeNode(noChildText);
+                }
+                parent.NoChild = nodes[noChildText];
             }
 
-
-
-         
+            return root;
         }
+
+        
+
+        
     }
 }
