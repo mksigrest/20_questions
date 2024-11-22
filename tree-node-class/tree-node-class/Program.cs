@@ -14,6 +14,8 @@
             public TreeNode(string data)
             {
                 Data = data;
+                Left = null;
+                Right = null;
             }
 
             static void Main(string[] args)
