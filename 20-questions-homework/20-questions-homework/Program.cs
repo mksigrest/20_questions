@@ -101,11 +101,14 @@ namespace _20_questions_homework
 
             return root;
         }
-
+        
+        //function that is able to traverse the tree and make the game playable
         static void TraverseTree(TreeNode node)
         {
+            //makes sure that the nodes have something in them
             while (node != null)
             {
+                //checks to see if there are anymore child nodes
                 if (node.YesChild == null && node.NoChild == null)
                 {
                     //Reached an answer node
