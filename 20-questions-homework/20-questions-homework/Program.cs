@@ -90,10 +90,50 @@ namespace _20_questions_homework
             return root;
         }
 
-        
+        static void TraverseTree(TreeNode node)
+        {
+            while (node != null)
+            {
+                if (node.YesChild != null && node.NoChild != null)
+                {
+                    //Reached an answer node
+                    Console.WriteLine($"Is it {node.Data}? (Yes/No)");
+                    string response = Console.ReadLine()?.Trim().ToLower();
 
-        
+                    if (response == "yes")
+                    {
+                        Console.WriteLine("I guessed it!");
+                    }
+                    else
+                    {
+                        Console.WriteLine("You stumped me!");
+                    }
+                    return;
+                }
+                else
+                {
+                    // Ask the question and move to the corresponding child
+                    Console.WriteLine(node.Data);
+                    string response = Console.ReadLine()?.Trim().ToLower();
 
-        
+                    if (response == "yes")
+                    {
+                        node = node.YesChild;
+                    }
+                    else if (response == "no")
+                    {
+                        node = node.NoChild;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Please answer with 'Yes' or 'No'.");
+                    }
+                }
+            }
+        }
+
+
+
+
     }
 }
