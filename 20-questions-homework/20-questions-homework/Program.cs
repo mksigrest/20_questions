@@ -4,6 +4,23 @@ namespace _20_questions_homework
 {
     internal class Program
     {
+        class TreeNode
+        {
+            public string Data { get; set; }
+            public TreeNode YesChild { get; set; }
+            public TreeNode NoChild { get; set; }
+
+            //class builder that assigns string arg question to data
+            public TreeNode(string data)
+            {
+                Data = data;
+                YesChild = null;
+                NoChild = null;
+            }
+        }
+
+
+
         //Root node declaration
         static TreeNode root;
 
@@ -35,7 +52,6 @@ namespace _20_questions_homework
 
             // read complete default tree file
             string[] lines = File.ReadAllLines(filePath);
-
             TreeNode root = null;
 
             foreach (string line in lines)
@@ -73,6 +89,8 @@ namespace _20_questions_homework
 
             return root;
         }
+
+        
 
         
 
