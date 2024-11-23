@@ -40,6 +40,18 @@ namespace _20_questions_homework
             string filepath = "questionTree.txt";
             TreeNode root = BuildTreeFromFile(filepath);
 
+            //Start the tree traversal and interactivity
+            if (root != null)
+            {
+                Console.WriteLine("Welcome to 20 Questions!");
+                Console.WriteLine("Think of something, and I'll try to guess it.\n");
+                TraverseTree(root);
+            }
+            else 
+            {
+                Console.WriteLine("Error: Tree could not be loaded.");
+            }
+
         }
 
 
@@ -94,10 +106,10 @@ namespace _20_questions_homework
         {
             while (node != null)
             {
-                if (node.YesChild != null && node.NoChild != null)
+                if (node.YesChild == null && node.NoChild == null)
                 {
                     //Reached an answer node
-                    Console.WriteLine($"Is it {node.Data}? (Yes/No)");
+                    Console.WriteLine($"{node.Data}? (Yes/No)");
                     string response = Console.ReadLine()?.Trim().ToLower();
 
                     if (response == "yes")
