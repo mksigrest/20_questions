@@ -1,0 +1,5 @@
+"Is it an animal?", "Does it have four legs?", "Is it a vehicle?"
+"Does it have four legs?", "Is it a pet?", "Does it fly?"
+"Is it a pet?", "It's a dog!", "It's a horse!"
+"Does it fly?", "It's a bird!", "It's a fish!"
+"Is it a vehicle?", "It is a car!", "It is a building!"
