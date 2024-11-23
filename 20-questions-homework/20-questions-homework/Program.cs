@@ -1,4 +1,6 @@
-﻿namespace _20_questions_homework
+﻿using System;
+using tree_node_class;
+namespace _20_questions_homework
 {
     internal class Program
     {

@@ -8,4 +8,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\tree-node-class\tree-node-class\tree-node-class.csproj" />
+  </ItemGroup>
+
 </Project>
