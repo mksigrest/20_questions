@@ -121,8 +121,45 @@ namespace _20_questions_homework
                     }
                     else
                     {
+                        //if incorrect start learning
                         Console.WriteLine("You stumped me!");
+                        Console.WriteLine("What were you thinking of?");
+                        string newAnswer = Console.ReadLine()?.Trim();
+
+                        //ask for a new question
+                        Console.WriteLine($"What question can help distinguish {newAnswer} from {node.Data}?");
+                        string newQuestion = Console.ReadLine()?.Trim();
+
+                        //determine if the answer to the new ? is yes or no
+                        Console.WriteLine($"For {newAnswer}, what is the answer to your question? (Yes/No)");
+                        string newAnswerResponse = Console.ReadLine()?.Trim().ToLower();
+
+                        //new node for the new answer
+                        //new node for old incorrect answer
+                        TreeNode newAnserNode = new TreeNode(newAnswer);
+                        TreeNode oldAnswerNode = new TreeNode(node.Data);
+
+
+                        //update the current node to hold the question
+                        node.Data = newQuestion;
+
+                        //Link the new anser and old answer
+                        //depending on the response, assign the new answer to either the yes or the no child
+                        if (newAnswerResponse == "yes")
+                        {
+                            node.YesChild = newAnserNode;
+                            node.NoChild = oldAnswerNode;
+                        }
+                        else
+                        {
+                            node.YesChild = oldAnswerNode;
+                            node.NoChild = newAnserNode;
+                        }
+
+                        //inform about the learning
+                        Console.WriteLine("Got it! Ill make sure I remember that!!!");
                     }
+                    //Exit after handling
                     return;
                 }
                 else
