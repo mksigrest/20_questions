@@ -153,11 +153,44 @@ namespace _20_questions_homework
                     }
                     else
                     {
+                        // If incorrect, start learning
                         Console.WriteLine("You stumped me!");
-                        //prompt with learn function
-                        //let the thread pause for a moment before going back to main menu
-                        Thread.Sleep(1000);
+                        Console.WriteLine("What were you thinking of?");
+                        string newAnswer = Console.ReadLine()?.Trim();
+
+                        // Ask for a new question to distinguish the user's thought
+                        Console.WriteLine($"What question can help distinguish {newAnswer} from {node.Data}?");
+                        string newQuestion = Console.ReadLine()?.Trim();
+
+                        // Determine whether the answer to the new question is "yes" or "no" for the new thought
+                        Console.WriteLine($"For {newAnswer}, what is the answer to your question? (yes/no)");
+                        string newAnswerResponse = Console.ReadLine()?.Trim().ToLower();
+
+                        // Create a new node for the new answer
+                        TreeNode newAnswerNode = new TreeNode(newAnswer);
+                        // Create a new node for the old incorrect answer
+                        TreeNode oldAnswerNode = new TreeNode(node.Data);
+
+                        // Update the current node to hold the new question
+                        node.Data = newQuestion;
+
+                        // Link the new answer and old answer nodes to the current node
+                        // Depending on the response, assign the new answer to either the Yes or No child
+                        if (newAnswerResponse == "yes")
+                        {
+                            node.YesChild = newAnswerNode;
+                            node.NoChild = oldAnswerNode;
+                        }
+                        else
+                        {
+                            node.YesChild = oldAnswerNode;
+                            node.NoChild = newAnswerNode;
+                        }
+
+                        // Inform the user that the program has learned the new information
+                        Console.WriteLine("Got it! I'll make sure I remember that!!!");
                     }
+                    // Exit the method after handling the leaf node
                     return;
                 }
                 else
@@ -187,3 +220,5 @@ namespace _20_questions_homework
 
     }
 }
+
+
