@@ -40,14 +40,44 @@ namespace _20_questions_homework
             string filepath = "questionTree.txt";
             TreeNode root = BuildTreeFromFile(filepath);
 
+            //Adding in stateInp to track is user is still playing, learning or exiting
+            string stateInp = "";
+
             //Start the tree traversal and interactivity
             if (root != null)
             {
-                Console.WriteLine("Welcome to 20 Questions!");
-                Console.WriteLine("Think of something, and I'll try to guess it.\n");
-                TraverseTree(root);
+                while (!stateInp.Equals("Exit"))
+                {
+                    Console.WriteLine("Welcome to 20 Questions!");
+                    Console.WriteLine("Would you like to 'Play', 'Save', or 'Exit'");
+                    stateInp = Console.ReadLine();
+                    if (stateInp.Equals("Play"))
+                    {
+                        Console.WriteLine("\nThink of something, and I'll try to guess it.\n");
+                        TraverseTree(root);
+                    }
+                    else if (stateInp.Equals("Save"))
+                    {
+                        //save function
+                        Console.WriteLine("Saving Code...\n");
+
+                        //let the thread pause for a moment before returning to main
+                        Thread.Sleep(2000);
+                    }
+                    else if(stateInp.Equals("Exit"))
+                    {
+                        //let the thread pause for a moment before ending the code
+                        Thread.Sleep(1000);
+                        Console.WriteLine("\nThanks for playing!");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Please type your values carefully. 'Play', 'Save', or 'Exit'\n");
+                        Thread.Sleep(500);
+                    }
+                }
             }
-            else 
+            else
             {
                 Console.WriteLine("Error: Tree could not be loaded.");
             }
@@ -79,7 +109,7 @@ namespace _20_questions_homework
                 {
                     nodes[parentQuestion] = new TreeNode(parentQuestion);
                     // set root if null
-                    if (root == null) root = nodes[parentQuestion]; 
+                    if (root == null) root = nodes[parentQuestion];
                 }
 
                 TreeNode parent = nodes[parentQuestion];
@@ -101,7 +131,7 @@ namespace _20_questions_homework
 
             return root;
         }
-        
+
         //function that is able to traverse the tree and make the game playable
         static void TraverseTree(TreeNode node)
         {
@@ -118,48 +148,16 @@ namespace _20_questions_homework
                     if (response == "yes")
                     {
                         Console.WriteLine("I guessed it!");
+                        //let the thread pause for a moment before going back to main menu
+                        Thread.Sleep(1000);
                     }
                     else
                     {
-                        //if incorrect start learning
                         Console.WriteLine("You stumped me!");
-                        Console.WriteLine("What were you thinking of?");
-                        string newAnswer = Console.ReadLine()?.Trim();
-
-                        //ask for a new question
-                        Console.WriteLine($"What question can help distinguish {newAnswer} from {node.Data}?");
-                        string newQuestion = Console.ReadLine()?.Trim();
-
-                        //determine if the answer to the new ? is yes or no
-                        Console.WriteLine($"For {newAnswer}, what is the answer to your question? (Yes/No)");
-                        string newAnswerResponse = Console.ReadLine()?.Trim().ToLower();
-
-                        //new node for the new answer
-                        //new node for old incorrect answer
-                        TreeNode newAnserNode = new TreeNode(newAnswer);
-                        TreeNode oldAnswerNode = new TreeNode(node.Data);
-
-
-                        //update the current node to hold the question
-                        node.Data = newQuestion;
-
-                        //Link the new anser and old answer
-                        //depending on the response, assign the new answer to either the yes or the no child
-                        if (newAnswerResponse == "yes")
-                        {
-                            node.YesChild = newAnserNode;
-                            node.NoChild = oldAnswerNode;
-                        }
-                        else
-                        {
-                            node.YesChild = oldAnswerNode;
-                            node.NoChild = newAnserNode;
-                        }
-
-                        //inform about the learning
-                        Console.WriteLine("Got it! Ill make sure I remember that!!!");
+                        //prompt with learn function
+                        //let the thread pause for a moment before going back to main menu
+                        Thread.Sleep(1000);
                     }
-                    //Exit after handling
                     return;
                 }
                 else
