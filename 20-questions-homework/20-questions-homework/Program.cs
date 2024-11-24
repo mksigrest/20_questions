@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Reflection.Metadata.Ecma335;
+using System.Xml.Linq;
 using tree_node_class;
+using static System.Formats.Asn1.AsnWriter;
 namespace _20_questions_homework
 {
     internal class Program
@@ -23,7 +26,9 @@ namespace _20_questions_homework
 
         //Root node declaration
         static TreeNode root;
-
+        // dictionary to hold references to TreeNode objects
+        static Dictionary<string, TreeNode> nodes = new Dictionary<string, TreeNode>();
+       
         static void Main(string[] args)
         {
             /*
@@ -37,8 +42,11 @@ namespace _20_questions_homework
 
 
             //To-do: prompt for existing game file; if not, build default tree
-            string filepath = "questionTree.txt";
+            string filepath = @"questionTree.txt";
+
+            
             TreeNode root = BuildTreeFromFile(filepath);
+
 
             //Adding in stateInp to track is user is still playing, learning or exiting
             string stateInp = "";
@@ -59,10 +67,11 @@ namespace _20_questions_homework
                     else if (stateInp.Equals("Save"))
                     {
                         //save function
-                        Console.WriteLine("Saving Code...\n");
-
+                        Console.WriteLine("Saving Code...");
                         //let the thread pause for a moment before returning to main
+                        SaveTree();
                         Thread.Sleep(2000);
+                        Console.WriteLine("File Saved\n");
                     }
                     else if(stateInp.Equals("Exit"))
                     {
@@ -89,8 +98,6 @@ namespace _20_questions_homework
         // returns a TreeNode that can be traversed by accessing the YesChild or NoChild
         static TreeNode BuildTreeFromFile(string filePath)
         {
-            // dictionary to hold references to TreeNode objects
-            Dictionary<string, TreeNode> nodes = new Dictionary<string, TreeNode>();
 
             // read complete default tree file
             string[] lines = File.ReadAllLines(filePath);
@@ -132,8 +139,34 @@ namespace _20_questions_homework
             return root;
         }
 
-        //function that is able to traverse the tree and make the game playable
-        static void TraverseTree(TreeNode node)
+        //function that goes through all tree data and writes to file
+        static void SaveTree()
+        {
+            //Saving Code with StreamWriter
+            try
+            {
+                StreamWriter sw = new StreamWriter(@"questionTree.txt", false);
+                foreach ((string key, TreeNode value) in nodes)
+                {
+                    if ((value.YesChild != null) && (value.NoChild != null))
+                    {
+                        sw.WriteLine('"' + key + "\", \"" + value.YesChild.Data + "\", \"" + value.NoChild.Data);
+                    }
+
+                }
+
+                sw.Close();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("File not found");
+                Console.WriteLine(e.ToString());
+                return;
+            }
+        }
+
+            //function that is able to traverse the tree and make the game playable
+            static void TraverseTree(TreeNode node)
         {
             //makes sure that the nodes have something in them
             while (node != null)
@@ -155,7 +188,7 @@ namespace _20_questions_homework
                     {
                         // If incorrect, start learning
                         Console.WriteLine("You stumped me!");
-                        Console.WriteLine("What were you thinking of?");
+                        Console.WriteLine("What were you thinking of? Ex: 'It is a *blank*'");
                         string newAnswer = Console.ReadLine()?.Trim();
 
                         // Ask for a new question to distinguish the user's thought
@@ -180,6 +213,7 @@ namespace _20_questions_homework
                         {
                             node.YesChild = newAnswerNode;
                             node.NoChild = oldAnswerNode;
+
                         }
                         else
                         {
@@ -187,10 +221,20 @@ namespace _20_questions_homework
                             node.NoChild = newAnswerNode;
                         }
 
+                        //Removes old Leaf Node and adds in the question above it, to make saving easier
+                        nodes.Remove(oldAnswerNode.Data);
+                        nodes.Add(node.Data, node);
+                        
+                        
+                        
+                        
+
                         // Inform the user that the program has learned the new information
-                        Console.WriteLine("Got it! I'll make sure I remember that!!!");
+                        Console.WriteLine("Got it! I'll make sure I remember that!!!\n");
                     }
                     // Exit the method after handling the leaf node
+                    //let the thread pause for a moment before going back to main menu
+                    Thread.Sleep(1000);
                     return;
                 }
                 else
