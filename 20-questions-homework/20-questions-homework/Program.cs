@@ -42,7 +42,7 @@ namespace _20_questions_homework
 
 
             //To-do: prompt for existing game file; if not, build default tree
-            string filepath = @"questionTree.txt";
+            string filepath = @"../../../questionTree.txt";
 
             
             TreeNode root = BuildTreeFromFile(filepath);
@@ -145,7 +145,7 @@ namespace _20_questions_homework
             //Saving Code with StreamWriter
             try
             {
-                StreamWriter sw = new StreamWriter(@"questionTree.txt", false);
+                StreamWriter sw = new StreamWriter(@"../../../questionTree.txt", false);
                 foreach ((string key, TreeNode value) in nodes)
                 {
                     if ((value.YesChild != null) && (value.NoChild != null))
